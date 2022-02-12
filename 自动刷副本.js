@@ -7,14 +7,12 @@
 const axios = require('axios')
 const CONFIG = require('./config')
 const BASEURL = CONFIG['区服务器']
-//石工矿场：6幻灵湖畔：7回音之谷：8死亡沼泽：9日落海峡：10聚灵孤岛：11龙骨墓地：12巨龙冰原：13
 const mapName = CONFIG['图序号']
-//普通捕捉球20006强力20007
 const BALL = CONFIG['使用的捕捉球']
 const S_ID = CONFIG['账号']
 
 async function jinruditu(mapIndex) {
-    const res = await axios.get(BASEURL + '/enterNode.asp', {
+    const res = await axios.get(BASEURL + '/nmap/enterNode.asp', {
         params: {
             sid: S_ID,
             nodeId: mapIndex
@@ -28,13 +26,13 @@ async function touzicaozuo(mapStatus) {
     //点击前进
     //提取jsessionid
     let jsessionid = getJsessionid(mapStatus)
-    await axios.get(BASEURL + `/stepIndex.asp${jsessionid}`, {
+    await axios.get(BASEURL + `/nmap/stepIndex.asp${jsessionid}`, {
         params: {
             sid: S_ID,
         }
     })
     //点击停止
-    await axios.get(BASEURL + `/step.asp${jsessionid}`, {
+    await axios.get(BASEURL + `/nmap/step.asp${jsessionid}`, {
         params: {
             sid: S_ID,
         }
@@ -44,7 +42,7 @@ async function touzicaozuo(mapStatus) {
 async function tiaozhanhuanshou(mapStatus) {
     if (mapStatus.indexOf('挑战幻') === -1) return
     let jsessionid = getJsessionid(mapStatus)
-    await axios.get(BASEURL + `/pk.asp${jsessionid}`, {
+    await axios.get(BASEURL + `/nmap/pk.asp${jsessionid}`, {
         params: {
             sid: S_ID,
         }
@@ -54,7 +52,7 @@ async function tiaozhanhuanshou(mapStatus) {
 async function shiyongbuzhuoqiu(mapStatus) {
     if (mapStatus.indexOf('捕捉') === -1) return
     let jsessionid = getJsessionid(mapStatus)
-    const res = await axios.get(BASEURL + `/grabPet.asp${jsessionid}`, {
+    const res = await axios.get(BASEURL + `/nmap/grabPet.asp${jsessionid}`, {
         params: {
             sid: S_ID,
             ballId: BALL
@@ -67,7 +65,7 @@ async function shiyongbuzhuoqiu(mapStatus) {
 }
 async function tiaozhanboss(mapStatus) {
     if (mapStatus.indexOf('boss') === -1) return
-    await axios.get(BASEURL + `/pkBoss.asp`, {
+    await axios.get(BASEURL + `/nmap/pkBoss.asp`, {
         params: {
             sid: S_ID,
         }
@@ -76,7 +74,7 @@ async function tiaozhanboss(mapStatus) {
 
 async function caiquan(mapStatus) {
     if (mapStatus.indexOf('猜拳') === -1) return
-    await axios.get(BASEURL + '/event1.asp', {
+    await axios.get(BASEURL + '/nmap/event1.asp', {
         params: {
             sid: S_ID,
             type: 0
@@ -87,7 +85,7 @@ async function caiquan(mapStatus) {
 async function huoquzhanlipin(mapStatus) {
     if (mapStatus.indexOf('BOSS') !== -1 && mapStatus.indexOf('打开') !== -1) {
         let jsessionid = getJsessionid(mapStatus)
-        await axios.get(BASEURL + `/openBox.asp${jsessionid}`, {
+        await axios.get(BASEURL + `/nmap/openBox.asp${jsessionid}`, {
             params: {
                 sid: S_ID,
                 type: 0
