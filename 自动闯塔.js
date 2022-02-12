@@ -35,7 +35,6 @@ async function tongtianta() {
         }
     })
 }
-// /zhzw/pagoda / oncepk.asp ? sid =167928_e16b8b3e263997067690 & id=2
 async function longwenta() {
     const res = await axios.get(BASEURL + '/pagoda/index.asp', {
         params: {
