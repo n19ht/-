@@ -6,12 +6,13 @@
  */
 const axios = require('axios')
 const CONFIG = require('./config')
-const BASEURL = 'http://47.108.60.249/zhzw/nmap'
+const BASEURL = CONFIG['区服务器']
 //石工矿场：6幻灵湖畔：7回音之谷：8死亡沼泽：9日落海峡：10聚灵孤岛：11龙骨墓地：12巨龙冰原：13
 const mapName = CONFIG['图序号']
 //普通捕捉球20006强力20007
 const BALL = CONFIG['使用的捕捉球']
 const S_ID = CONFIG['账号']
+
 async function jinruditu(mapIndex) {
     const res = await axios.get(BASEURL + '/enterNode.asp', {
         params: {
