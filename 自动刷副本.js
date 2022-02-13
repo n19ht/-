@@ -7,7 +7,7 @@
 const axios = require('axios')
 const CONFIG = require('./config')
 const BASEURL = CONFIG['区服务器']
-const mapName = CONFIG['图序号']
+const mapName = CONFIG['地图序号']
 const BALL = CONFIG['使用的捕捉球']
 const S_ID = CONFIG['账号']
 
@@ -91,6 +91,7 @@ async function huoquzhanlipin(mapStatus) {
                 type: 0
             }
         })
+        console.log('地图挑战完成！');
     }
 }
 function getJsessionid(mapStatus) {

@@ -49,12 +49,15 @@ async function longwenta() {
         }
     })
     jsessionid = getJsessionid(result.data)
-    await axios.get(BASEURL + `/pagoda/oncepk.asp${jsessionid}`, {
+    const jieguo = await axios.get(BASEURL + `/pagoda/oncepk.asp${jsessionid}`, {
         params: {
             sid: S_ID,
             id: 2
         }
     })
+    if (jieguo.data.indexOf('2/2') !== -1) {
+        console.log('龙纹塔完成');
+    }
 }
 
 async function zhanlingta() {
@@ -71,12 +74,15 @@ async function zhanlingta() {
         }
     })
     jsessionid = getJsessionid(result.data)
-    await axios.get(BASEURL + `/pagoda/oncepk.asp${jsessionid}`, {
+    const jieguo = await axios.get(BASEURL + `/pagoda/oncepk.asp${jsessionid}`, {
         params: {
             sid: S_ID,
             id: 3
         }
     })
+    if (jieguo.data.indexOf('2/2') !== -1) {
+        console.log('战灵塔完成');
+    }
 }
 setInterval(() => {
     longwenta()
