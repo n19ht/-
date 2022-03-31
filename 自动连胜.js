@@ -10,7 +10,6 @@ const CONFIG = require('./config')
 const BASEURL = CONFIG['区服务器']
 const S_ID = CONFIG['账号']
 const ZHANLI = CONFIG['连胜战力']
-
 async function jinruliansheng() {
     const res = await axios.get(BASEURL + '/sport/index.asp', {
         params: {
@@ -18,6 +17,8 @@ async function jinruliansheng() {
         }
     })
     const pkStatus = res.data
+    // console.log(pkStatus)
+    if (pkStatus.indexOf('当前连胜:50') !== -1) return
     if (iscaozuoguokuai(pkStatus)) return
     const linkArr = pkStatus.match(/href='\/zhzw\/user\/userInfo.asp[\s\S]*?'/g)
     linkArr.splice(0, 1)//pk的两个人的链接
@@ -58,6 +59,7 @@ function getUserId(mapStatus) {
     return userId
 }
 function getzhanli(pInfo) {
+    if (pInfo.indexOf('点击操作过快') !== -1) return
     return pInfo.match(/战力:[0-9]*/)[0].slice(3) * 1
 }
 
@@ -84,11 +86,11 @@ async function shiyonghuolicao(mapStatus) {
 }
 async function lianshen() {
     const info = await jinruliansheng()
+    if (info === undefined) return
     const p1Info = await chakanzhanji(info.jsessionid, info.p1UserId)
     const p2Info = await chakanzhanji(info.jsessionid, info.p2UserId)
     const p1zhanli = getzhanli(p1Info)
     const p2zhanli = getzhanli(p2Info)
-    console.log(p1zhanli, p2zhanli);
     if (p1zhanli < ZHANLI) {
         const res = await tiaozhan(info.jsessionid, info.p1UserId)
         shiyonghuolicao(res)
@@ -101,4 +103,4 @@ async function lianshen() {
 }
 setInterval(() => {
     lianshen()
-}, 1000)
+}, 300)

@@ -7,35 +7,35 @@
 const axios = require('axios')
 const CONFIG = require('./config')
 const BASEURL = CONFIG['区服务器']
-const mapName = CONFIG['地图序号']
 const S_ID = CONFIG['账号']
+const config = {
+    petId: 'f1cceb2713f8473795fedf333c0837ab',
+    positionId: 1,
+}
 async function jinruzhanling() {
-const res = await axios.get(BASEURL + '/soul/soulPositionInfo.asp', {
+    const res = await axios.get(BASEURL + '/soul/soulPositionInfo.asp', {
         params: {
             sid: S_ID,
-            petId: '19451d0039134f75b4999e74f5202e8d',
-            positionId:2
+            petId: config.petId,
+            positionId: config.positionId
         }
     })
     return res.data
 }
 async function xizhanling(mapStatus) {
-    console.log(mapStatus);
-    if (mapStatus.indexOf('当前洗练包含战灵传奇属性')!==-1) { 
-        console.log('有传奇了');
+    if (mapStatus.indexOf('当前洗练包含战灵传奇属性') !== -1) {
         return
     }
     const res = await axios.get(BASEURL + '/soul/waskSoul.asp', {
         params: {
             sid: S_ID,
-            petId: '19451d0039134f75b4999e74f5202e8d',
-            positionId:2
+            petId: config.petId,
+            positionId: config.positionId
         }
     })
-    console.log('洗战灵中！');
     return res.data
 }
 setInterval(async () => {
     const res = await jinruzhanling()
     xizhanling(res)
-},500)
+}, 500)

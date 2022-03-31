@@ -81,16 +81,27 @@ async function caiquan(mapStatus) {
         }
     })
 }
-
+async function shiyonghuolicao(mapStatus) {
+    if (mapStatus.indexOf('活力不足') === -1) return
+    const res = await axios.get(BASEURL + '/power/addPower.asp', {
+        params: {
+            sid: S_ID,
+            id: 20005,
+            count: 30
+        }
+    })
+    return res.data
+}
 async function huoquzhanlipin(mapStatus) {
     if (mapStatus.indexOf('BOSS') !== -1 && mapStatus.indexOf('打开') !== -1) {
         let jsessionid = getJsessionid(mapStatus)
-        await axios.get(BASEURL + `/nmap/openBox.asp${jsessionid}`, {
+        const res = await axios.get(BASEURL + `/nmap/openBox.asp${jsessionid}`, {
             params: {
                 sid: S_ID,
                 type: 0
             }
         })
+        shiyonghuolicao(res.data)
         console.log('地图挑战完成！');
     }
 }

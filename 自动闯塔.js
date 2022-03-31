@@ -8,8 +8,6 @@
 const axios = require('axios')
 const CONFIG = require('./config')
 const BASEURL = CONFIG['区服务器']
-const mapName = CONFIG['图序号']
-const BALL = CONFIG['使用的捕捉球']
 const S_ID = CONFIG['账号']
 
 
@@ -48,6 +46,7 @@ async function longwenta() {
             id: 2
         }
     })
+    await shiyonghuolicao(result.data)
     jsessionid = getJsessionid(result.data)
     const jieguo = await axios.get(BASEURL + `/pagoda/oncepk.asp${jsessionid}`, {
         params: {
@@ -59,7 +58,17 @@ async function longwenta() {
         console.log('龙纹塔完成');
     }
 }
-
+async function shiyonghuolicao(mapStatus) {
+    if (mapStatus.indexOf('活力不足') === -1) return
+    const res = await axios.get(BASEURL + '/power/addPower.asp', {
+        params: {
+            sid: S_ID,
+            id: 20005,
+            count: 30
+        }
+    })
+    return res.data
+}
 async function zhanlingta() {
     const res = await axios.get(BASEURL + '/pagoda/index.asp', {
         params: {
@@ -73,6 +82,7 @@ async function zhanlingta() {
             id: 3
         }
     })
+    await shiyonghuolicao(result.data)
     jsessionid = getJsessionid(result.data)
     const jieguo = await axios.get(BASEURL + `/pagoda/oncepk.asp${jsessionid}`, {
         params: {
@@ -84,9 +94,34 @@ async function zhanlingta() {
         console.log('战灵塔完成');
     }
 }
+async function tiankongta() {
+    const res = await axios.get(BASEURL + '/pagoda/index.asp', {
+        params: {
+            sid: S_ID,
+        }
+    })
+    let jsessionid = getJsessionid(res.data)
+    const result = await axios.get(BASEURL + `/pagoda/newbeginpk.asp${jsessionid}`, {
+        params: {
+            sid: S_ID,
+            id: 4
+        }
+    })
+    await shiyonghuolicao(result.data)
+    jsessionid = getJsessionid(result.data)
+    const jieguo = await axios.get(BASEURL + `/pagoda/oncepk.asp${jsessionid}`, {
+        params: {
+            sid: S_ID,
+            id: 4
+        }
+    })
+}
 setInterval(() => {
     longwenta()
 }, 500)
 setInterval(() => {
     zhanlingta()
+}, 500)
+setInterval(() => {
+    tiankongta()
 }, 500)
