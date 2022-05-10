@@ -10,7 +10,7 @@ const BASEURL = CONFIG['区服务器']
 const S_ID = CONFIG['账号']
 const config = {
     petId: 'f1cceb2713f8473795fedf333c0837ab',
-    positionId: 1,
+    positionId: 2,
 }
 async function jinruzhanling() {
     const res = await axios.get(BASEURL + '/soul/soulPositionInfo.asp', {

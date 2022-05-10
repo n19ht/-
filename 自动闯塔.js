@@ -116,12 +116,15 @@ async function tiankongta() {
         }
     })
 }
-setInterval(() => {
-    longwenta()
-}, 500)
-setInterval(() => {
-    zhanlingta()
-}, 500)
-setInterval(() => {
-    tiankongta()
-}, 500)
+longwenta()
+zhanlingta()
+tiankongta()
+// setInterval(() => {
+//     longwenta()
+// }, 500)
+// setInterval(() => {
+//     zhanlingta()
+// }, 500)
+// setInterval(() => {
+//     tiankongta()
+// }, 500)
