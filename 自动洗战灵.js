@@ -9,8 +9,8 @@ const CONFIG = require('./config')
 const BASEURL = CONFIG['区服务器']
 const S_ID = CONFIG['账号']
 const config = {
-    petId: 'f1cceb2713f8473795fedf333c0837ab',
-    positionId: 2,
+    petId: '75ed6c4e691d40d497bc2122f73f9b56',
+    positionId: 3,
 }
 async function jinruzhanling() {
     const res = await axios.get(BASEURL + '/soul/soulPositionInfo.asp', {

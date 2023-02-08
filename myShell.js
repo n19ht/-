@@ -23,9 +23,9 @@ const { shuafuben } = require('./自动刷副本')
 // setTimeout(() => { xinyunxing().catch(res => { });console.log('幸运星') }, 0)//自动幸运星
 // setTimeout(() => { canjiazhanchang().catch(res => { });console.log('战场') }, 0)//自动参加战场
 // setTimeout(() => { shuatu().catch(res => { });console.log('龙宫') }, 0)//自动挑战龙宫
-// zidongliansheng().catch(res => { });console.log('连胜')//自动连胜
-chuangta().catch(res => { });console.log('闯塔')//自动闯塔
-setInterval(shuafuben, 500)//捉宠物
+// zidongliansheng().catch(res => { }); console.log('连胜')//自动连胜
+chuangta().catch(res => { }); console.log('闯塔')//自动闯塔
+// setInterval(shuafuben, 500)//捉宠物
 
 
 
@@ -62,5 +62,5 @@ async function zidongliansheng() {
             }
         }).catch(err => { })
     }
-    id = setInterval(cb, 300)
+    id = setInterval(cb, 500)
 } 
