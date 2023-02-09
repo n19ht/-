@@ -107,7 +107,7 @@ async function shiyonghuolicao(mapStatus) {
     const res = await axios.get(BASEURL + '/power/addPower.asp', {
         params: {
             sid: S_ID,
-            id: 20003,
+            id: 20005,
             count: 30
         }
     })

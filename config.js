@@ -21,7 +21,7 @@ const { required } = require("nodemon/lib/config")
 //区服务器
 // 一区：'http://47.108.60.249/zhzw'
 // 二区：'http://47.108.60.249/nzh'
-const CONFIG = 0
+const CONFIG = 1
 module.exports = {
     '账号': CONFIG ? '173922_b998ae995fd42d04c14d' : '167928_e70d3d56cd1517064887',
     '地图序号': CONFIG ? 13 : 9,

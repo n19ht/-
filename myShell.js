@@ -24,9 +24,12 @@ const { shuafuben } = require('./自动刷副本')
 // setTimeout(() => { canjiazhanchang().catch(res => { });console.log('战场') }, 0)//自动参加战场
 // setTimeout(() => { shuatu().catch(res => { });console.log('龙宫') }, 0)//自动挑战龙宫
 // zidongliansheng().catch(res => { }); console.log('连胜')//自动连胜
-chuangta().catch(res => { }); console.log('闯塔')//自动闯塔
+// chuangta().catch(res => { }); console.log('闯塔')//自动闯塔
 // setInterval(shuafuben, 500)//捉宠物
 
+process.on('uncaughtException', function (err) {
+    console.log('uncaughtException出错')
+});
 
 
 
@@ -49,7 +52,7 @@ async function chuanglongwenta() {
     })
 }
 async function chuangta() {
-    const res = await chuanglongwenta()
+    chuanglongwenta()
     setInterval(zhanlingta, 300)
     setInterval(tiankongta, 300)
 }
@@ -62,5 +65,5 @@ async function zidongliansheng() {
             }
         }).catch(err => { })
     }
-    id = setInterval(cb, 500)
+    id = setInterval(cb, 300)
 } 
