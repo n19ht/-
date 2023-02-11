@@ -1,35 +1,28 @@
-/*
- * @Author: yuanchao
- * @Date: 2022-02-13 11:35:27
- * @FilePath: \召唤之王脚本\自动连胜.js
- * @Description: 
- */
-
 const axios = require('axios')
 const CONFIG = require('./config')
 const BASEURL = CONFIG['区服务器']
 const S_ID = CONFIG['账号']
 const ZHANLI = CONFIG['连胜战力']
 async function huoquliangji() {
-    axios.get(BASEURL + '/sport/takeWinCountAward.asp', {
+    await axios.get(BASEURL + '/sport/takeWinCountAward.asp', {
         params: {
             sid: S_ID,
             count: 50,
         }
     })
-    axios.get(BASEURL + '/sport/takeWinCountAward.asp', {
+    await axios.get(BASEURL + '/sport/takeWinCountAward.asp', {
         params: {
             sid: S_ID,
             count: 25,
         }
     })
-    axios.get(BASEURL + '/sport/takeWinCountAward.asp', {
+    await axios.get(BASEURL + '/sport/takeWinCountAward.asp', {
         params: {
             sid: S_ID,
             count: 15,
         }
     })
-    axios.get(BASEURL + '/sport/takeWinCountAward.asp', {
+    await axios.get(BASEURL + '/sport/takeWinCountAward.asp', {
         params: {
             sid: S_ID,
             count: 5,
@@ -43,7 +36,7 @@ async function jinruliansheng() {
         }
     })
     const pkStatus = res.data
-    huoquliangji()
+    await huoquliangji()
     if (pkStatus.indexOf('当前连胜:50') !== -1) {
         console.log('已经获得50连胜', new Date().valueOf())
         return 'over'
@@ -119,16 +112,19 @@ async function lianshen() {
     if (info === undefined) return
     const p1Info = await chakanzhanji(info.jsessionid, info.p1UserId)
     const p2Info = await chakanzhanji(info.jsessionid, info.p2UserId)
-    const p1zhanli = getzhanli(p1Info)
-    const p2zhanli = getzhanli(p2Info)
+    const p1zhanli = p1Info.includes('点击操作过快') ? undefined : getzhanli(p1Info)
+    const p2zhanli = p2Info.includes('点击操作过快') ? undefined : getzhanli(p2Info)
+    if (p1zhanli === undefined && p2zhanli === undefined) return
     if (p1zhanli < ZHANLI) {
         const res = await tiaozhan(info.jsessionid, info.p1UserId)
+        if (res.includes('点击操作过快')) return
         shiyonghuolicao(res)
     } else if (p2zhanli < ZHANLI) {
         const res = await tiaozhan(info.jsessionid, info.p2UserId)
+        if (res.includes('点击操作过快')) return
         shiyonghuolicao(res)
     } else {
-        console.log('挑战列表的这两个你都打不过！', new Date().valueOf());
+        return
     }
 }
 module.exports = {

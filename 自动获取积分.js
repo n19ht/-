@@ -18,4 +18,7 @@ async function jifeng() {
     })
     return res.data
 }
-setInterval(jifeng,1000)
+setInterval(jifeng, 1000)
+process.on('uncaughtException', function (err) {
+    console.log('uncaughtException出错')
+});

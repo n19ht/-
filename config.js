@@ -24,7 +24,7 @@ const { required } = require("nodemon/lib/config")
 const CONFIG = 1
 module.exports = {
     '账号': CONFIG ? '173922_b998ae995fd42d04c14d' : '167928_e70d3d56cd1517064887',
-    '地图序号': CONFIG ? 13 : 9,
+    '地图序号': CONFIG ? 13 : 8,
     '使用的捕捉球': '20007',
     '区服务器': 'http://129.204.193.135:8036/zhzw',
     '连胜战力': CONFIG ? 14000 : 5000
