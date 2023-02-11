@@ -3,29 +3,38 @@ const CONFIG = require('./config')
 const BASEURL = CONFIG['区服务器']
 const S_ID = CONFIG['账号']
 const ZHANLI = CONFIG['连胜战力']
+const LIANSHENG = CONFIG['连胜']
+let timer = null
+function getUserId(mapStatus) {
+    const reg = /userId=([0-9]*)/
+    return Number(mapStatus.match(reg)[1])
+}
 async function huoquliangji() {
-    await axios.get(BASEURL + '/sport/takeWinCountAward.asp', {
+    const res = await axios.get(BASEURL + '/sport/takeWinCountAward.asp', {
         params: {
             sid: S_ID,
-            count: 50,
+            count: 5,
         }
     })
-    await axios.get(BASEURL + '/sport/takeWinCountAward.asp', {
-        params: {
-            sid: S_ID,
-            count: 25,
-        }
-    })
-    await axios.get(BASEURL + '/sport/takeWinCountAward.asp', {
+    if (res.data.includes('条件未达到')) return
+    const res2 = await axios.get(BASEURL + '/sport/takeWinCountAward.asp', {
         params: {
             sid: S_ID,
             count: 15,
         }
     })
+    if (res2.data.includes('条件未达到')) return
+    const res3 = await axios.get(BASEURL + '/sport/takeWinCountAward.asp', {
+        params: {
+            sid: S_ID,
+            count: 25,
+        }
+    })
+    if (res3.data.includes('条件未达到')) return
     await axios.get(BASEURL + '/sport/takeWinCountAward.asp', {
         params: {
             sid: S_ID,
-            count: 5,
+            count: 50,
         }
     })
 }
@@ -37,28 +46,21 @@ async function jinruliansheng() {
     })
     const pkStatus = res.data
     await huoquliangji()
-    if (pkStatus.indexOf('当前连胜:50') !== -1) {
-        console.log('已经获得50连胜', new Date().valueOf())
+    if (pkStatus.includes(`当前连胜:${LIANSHENG}`)) {
+        console.log(`已经获得${LIANSHENG}连胜`)
         return 'over'
     }
-    if (iscaozuoguokuai(pkStatus)) return
+    if (pkStatus.includes('点击操作过快')) return
     const linkArr = pkStatus.match(/href='\/zhzw\/user\/userInfo.asp[\s\S]*?'/g)
-    linkArr.splice(0, 1)//pk的两个人的链接
-    let jsessionid = getJsessionid(linkArr[1])
     let p1UserId = getUserId(linkArr[0])
     let p2UserId = getUserId(linkArr[1])
     return {
-        jsessionid,
         p1UserId,
         p2UserId
     }
 }
-// 点击操作过快
-function iscaozuoguokuai(mapStatus) {
-    return mapStatus.indexOf('点击操作过快') !== -1
-}
-async function chakanzhanji(jsessionid, userId) {
-    const res = await axios.get(BASEURL + '/user/userInfo.asp' + jsessionid, {
+async function chakanzhanji(userId) {
+    const res = await axios.get(BASEURL + '/user/userInfo.asp', {
         params: {
             sid: S_ID,
             userId: userId
@@ -66,27 +68,13 @@ async function chakanzhanji(jsessionid, userId) {
     })
     return res.data
 }
-function getJsessionid(mapStatus) {
-    let jsessionid = ''
-    if (mapStatus.indexOf(jsessionid) !== -1) {
-        jsessionid = mapStatus.slice(mapStatus.indexOf(';jsessionid'), mapStatus.indexOf(';jsessionid') + 44)
-    }
-    return jsessionid
-}
-function getUserId(mapStatus) {
-    let userId = ''
-    if (mapStatus.indexOf('userId') !== -1) {
-        userId = mapStatus.slice(mapStatus.indexOf('userId') + 7, mapStatus.indexOf('userId') + 13)
-    }
-    return userId
-}
 function getzhanli(pInfo) {
     if (pInfo.indexOf('点击操作过快') !== -1) return
-    return pInfo.match(/战力:[0-9]*/)[0].slice(3) * 1
+    return Number(pInfo.match(/战力:([0-9]*)/)[1])
 }
 
-async function tiaozhan(jsessionid, userId) {
-    const res = await axios.get(BASEURL + '/sport/pk.asp' + jsessionid, {
+async function tiaozhan(userId) {
+    const res = await axios.get(BASEURL + '/sport/pk.asp', {
         params: {
             sid: S_ID,
             otherId: userId
@@ -110,23 +98,32 @@ async function lianshen() {
     const info = await jinruliansheng()
     if (info === 'over') return 'over'
     if (info === undefined) return
-    const p1Info = await chakanzhanji(info.jsessionid, info.p1UserId)
-    const p2Info = await chakanzhanji(info.jsessionid, info.p2UserId)
+    const p1Info = await chakanzhanji(info.p1UserId)
+    const p2Info = await chakanzhanji(info.p2UserId)
     const p1zhanli = p1Info.includes('点击操作过快') ? undefined : getzhanli(p1Info)
     const p2zhanli = p2Info.includes('点击操作过快') ? undefined : getzhanli(p2Info)
     if (p1zhanli === undefined && p2zhanli === undefined) return
     if (p1zhanli < ZHANLI) {
-        const res = await tiaozhan(info.jsessionid, info.p1UserId)
+        const res = await tiaozhan(info.p1UserId)
         if (res.includes('点击操作过快')) return
         shiyonghuolicao(res)
     } else if (p2zhanli < ZHANLI) {
-        const res = await tiaozhan(info.jsessionid, info.p2UserId)
+        const res = await tiaozhan(info.p2UserId)
         if (res.includes('点击操作过快')) return
         shiyonghuolicao(res)
     } else {
         return
     }
 }
+function lianshengwang() {
+    timer = setInterval(async () => {
+        const res = await lianshen()
+        if (res === 'over') {
+            console.log(`已经获取${LIANSHENG}连胜`)
+            clearInterval(timer)
+        }
+    }, 300)
+}
 module.exports = {
-    lianshen
+    lianshengwang
 }
