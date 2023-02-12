@@ -16,7 +16,7 @@ async function zhongzhuangyuan() {
                 seedId: 1,
             }
         })
-        const zhongzhi = res.data.includes('没有闲置的土地')
+        const zhongzhi = res.data.includes('没有闲置的土地') || res.data.includes('今日内该种子已达种植上限')
         const res2 = await axios.get(BASEURL + '/manor/pickAll.asp', {
             params: {
                 sid: S_ID,

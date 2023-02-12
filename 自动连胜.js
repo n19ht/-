@@ -4,7 +4,6 @@ const BASEURL = CONFIG['区服务器']
 const S_ID = CONFIG['账号']
 const ZHANLI = CONFIG['连胜战力']
 const LIANSHENG = CONFIG['连胜']
-let timer = null
 function getUserId(mapStatus) {
     const reg = /userId=([0-9]*)/
     return Number(mapStatus.match(reg)[1])
@@ -44,6 +43,7 @@ async function jinruliansheng() {
             sid: S_ID
         }
     })
+    if (res.data.includes('你的请求过快')) return
     const pkStatus = res.data
     await huoquliangji()
     if (pkStatus.includes(`当前连胜:${LIANSHENG}`)) {
@@ -52,8 +52,17 @@ async function jinruliansheng() {
     }
     if (pkStatus.includes('点击操作过快')) return
     const linkArr = pkStatus.match(/href='\/zhzw\/user\/userInfo.asp[\s\S]*?'/g)
-    let p1UserId = getUserId(linkArr[0])
-    let p2UserId = getUserId(linkArr[1])
+    let link1 = null
+    let link2 = null
+    if (linkArr.length === 3) {
+        link1 = linkArr[1]
+        link2 = linkArr[2]
+    } else {
+        link1 = linkArr[0]
+        link2 = linkArr[1]
+    }
+    let p1UserId = getUserId(link1)
+    let p2UserId = getUserId(link2)
     return {
         p1UserId,
         p2UserId
@@ -105,18 +114,20 @@ async function lianshen() {
     if (p1zhanli === undefined && p2zhanli === undefined) return
     if (p1zhanli < ZHANLI) {
         const res = await tiaozhan(info.p1UserId)
-        if (res.includes('点击操作过快')) return
-        shiyonghuolicao(res)
+        if (res.includes('点击操作过快') || res.includes('对方不在对手列表中')) return
+        const res1 = await shiyonghuolicao(res)
+        if (res1.includes('的请求过快')) return
     } else if (p2zhanli < ZHANLI) {
         const res = await tiaozhan(info.p2UserId)
-        if (res.includes('点击操作过快')) return
-        shiyonghuolicao(res)
+        if (res.includes('点击操作过快') || res.includes('对方不在对手列表中')) return
+        const res1 = awaitshiyonghuolicao(res)
+        if (res1.includes('的请求过快')) return
     } else {
         return
     }
 }
 function lianshengwang() {
-    timer = setInterval(async () => {
+    const timer = setInterval(async () => {
         const res = await lianshen()
         if (res === 'over') {
             console.log(`已经获取${LIANSHENG}连胜`)

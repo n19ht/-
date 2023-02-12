@@ -4,9 +4,7 @@
  * @FilePath: \召唤之王脚本\myShell.js
  * @Description: 
  */
-const { qiandao } = require('./自动签到')
-const { zhuhe } = require('./自动祝贺幻王')
-const { viplibao } = require('./自动领取vip礼包')
+const { meirirenwu } = require('./自动签到')
 const { zhongzhuangyuan } = require('./自动种庄园')
 const { xinyunxing } = require('./自动领取幸运星')
 const { canjiazhanchang } = require('./自动参加战场')
@@ -15,13 +13,11 @@ const { lianshengwang } = require('./自动连胜')
 const { zidongchuangta } = require('./自动闯塔')
 const { shuafuben } = require('./自动刷副本')
 
-// qiandao()//自动签到
-// setTimeout(() => { zhuhe().catch(res => { });console.log('祝贺'); }, 0)//自动祝贺幻王
-// setTimeout(() => { viplibao().catch(res => { });console.log('vip礼包') }, 0)//自动领取vip礼包
-// setTimeout(() => { zhongzhuangyuan().catch(res => { })}, 0)//自动种庄园
-// setTimeout(() => { xinyunxing().catch(res => { });console.log('幸运星') }, 0)//自动幸运星
-// setTimeout(() => { canjiazhanchang().catch(res => { });console.log('战场') }, 0)//自动参加战场
-// setTimeout(() => { shuatu().catch(res => { });}, 0)//自动挑战龙宫
+// meirirenwu()//签到、祝贺幻王、每日礼包
+// zhongzhuangyuan()//自动种庄园
+// xinyunxing()//自动幸运星
+// canjiazhanchang()//自动参加战场
+// shuatu()//自动挑战龙宫
 // lianshengwang()//自动连胜
 // zidongchuangta()//自动闯塔
 // setInterval(shuafuben, 500)//捉宠物
