@@ -12,6 +12,7 @@ const { shuatu } = require('./自动挑战地图')
 const { lianshengwang } = require('./自动连胜')
 const { zidongchuangta } = require('./自动闯塔')
 const { shuafuben } = require('./自动刷副本')
+const { wakuang } = require('./自动挖矿')
 
 // meirirenwu()//签到、祝贺幻王、每日礼包
 // zhongzhuangyuan()//自动种庄园
@@ -21,7 +22,7 @@ const { shuafuben } = require('./自动刷副本')
 // lianshengwang()//自动连胜
 // zidongchuangta()//自动闯塔
 // setInterval(shuafuben, 500)//捉宠物
-
+wakuang()//挖矿
 process.on('uncaughtException', function (err) {
     console.log('uncaughtException出错')
 });
