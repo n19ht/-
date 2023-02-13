@@ -23,6 +23,7 @@ async function zhanlingta() {
     })
     if (res.data.includes('今天挑战次数达到上限')) {
         console.log('战灵塔完成')
+        await tiankongta()
         return '战灵塔完成'
     }
     timezhanlingta()
@@ -83,6 +84,7 @@ async function longwenta() {
     })
     if (res.data.includes('今天挑战次数达到上限')) {
         console.log('龙纹塔完成')
+        await zhanlingta()
         return '龙纹塔完成'
     }
     timelongwenta()
@@ -115,8 +117,6 @@ async function chushouzhangu() {
 }
 async function zidongchuangta() { 
     await longwenta()
-    await zhanlingta()
-    await tiankongta()
 }
 module.exports = {
     zidongchuangta

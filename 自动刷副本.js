@@ -113,29 +113,25 @@ function getJsessionid(mapStatus) {
     return jsessionid
 }
 async function shuafuben() {
-    try {
-        const res = await jinruditu(mapName)
-        await shiyongbuzhuoqiu(res).catch((err) => {
-            console.log(err);
-        })
-        await touzicaozuo(res).catch((err) => {
-            console.log(err);
-        })
-        await tiaozhanhuanshou(res).catch((err) => {
-            console.log(err);
-        })
-        await tiaozhanboss(res).catch((err) => {
-            console.log(err);
-        })
-        await caiquan(res).catch((err) => {
-            console.log(err);
-        })
-        await huoquzhanlipin(res).catch((err) => {
-            console.log(err);
-        })
-    } catch (error) {
-        console.log('出错了：', error);
-    }
+    const res = await jinruditu(mapName)
+    await shiyongbuzhuoqiu(res).catch((err) => {
+        console.log(err);
+    })
+    await touzicaozuo(res).catch((err) => {
+        console.log(err);
+    })
+    await tiaozhanhuanshou(res).catch((err) => {
+        console.log(err);
+    })
+    await tiaozhanboss(res).catch((err) => {
+        console.log(err);
+    })
+    await caiquan(res).catch((err) => {
+        console.log(err);
+    })
+    await huoquzhanlipin(res).catch((err) => {
+        console.log(err);
+    })
 }
 module.exports = {
     shuafuben

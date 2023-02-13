@@ -22,7 +22,7 @@ const { wakuang } = require('./自动挖矿')
 // lianshengwang()//自动连胜
 // zidongchuangta()//自动闯塔
 // setInterval(shuafuben, 500)//捉宠物
-wakuang()//挖矿
+// wakuang()//挖矿
 process.on('uncaughtException', function (err) {
-    console.log('uncaughtException出错')
+    // console.log('uncaughtException出错')
 });
