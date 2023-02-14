@@ -31,14 +31,14 @@ async function zhengyao() {
                     }
                 })
                 if (res2.data.includes('镇妖符不足')) {
-                    console.log('\x1B[31m%s\x1B[0m', '⚠️⚠️⚠️⚠️镇妖符不足')
+                    console.log('\x1B[31m%s\x1B[0m', '低等级：⚠️⚠️⚠️⚠️镇妖符不足')
                     clearInterval(timer)
                 }
                 if (res2.data.includes('成功占领第')) {
-                    console.log('🎉占领聚魂阵成功')
+                    console.log('低等级：🎉占领聚魂阵成功')
                 }
                 if (res2.data.includes('次数不足')) {
-                    console.log('\x1B[31m%s\x1B[0m', '镇妖次数不足')
+                    console.log('\x1B[31m%s\x1B[0m', '低等级：镇妖次数不足')
                     clearInterval(timer)
                 }
             }
