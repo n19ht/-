@@ -133,7 +133,7 @@ function lianshengwang() {
             console.log(`已经获取${LIANSHENG}连胜`)
             clearInterval(timer)
         }
-    }, 300)
+    }, 1000)
 }
 module.exports = {
     lianshengwang

@@ -3,7 +3,7 @@ const CONFIG = require('./config')
 const BASEURL = CONFIG['区服务器']
 const S_ID = CONFIG['账号']
 async function zhengyao() {
-    const timer = setTimeout(async () => {
+    const timer = setInterval(async () => {
         const res = await axios.get(BASEURL + '/pagoda/todemon.asp', {
             params: {
                 sid: S_ID,
@@ -43,7 +43,7 @@ async function zhengyao() {
                 }
             }
         })
-    }, 10000)
+    }, 5000)
 }
 module.exports = {
     zhengyao

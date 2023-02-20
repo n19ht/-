@@ -7,12 +7,12 @@ async function tiaozhuan() {
     const res = await axios.get(BASEURL + '/dare/pk.asp', {
         params: {
             sid: S_ID,
-            otherId:389980
+            otherId: 389980
         }
     })
     return res.data
 }
-setInterval(tiaozhuan,1000)
+setInterval(tiaozhuan, 1000)
 process.on('uncaughtException', function (err) {
     console.log('uncaughtException出错')
 });

@@ -37,7 +37,7 @@ async function wakuang() {
                 clearInterval(timer)
             }
         })
-    }, 10000)
+    }, 5000)
 }
 module.exports = {
     wakuang
