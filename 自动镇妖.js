@@ -43,7 +43,7 @@ async function zhengyao() {
                 }
             }
         })
-    }, 5000)
+    }, 1000)
 }
 module.exports = {
     zhengyao
