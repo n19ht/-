@@ -21,10 +21,10 @@ const { zhengyao } = require('./自动镇妖')
 // canjiazhanchang()//自动参加战场
 // shuatu()//自动挑战龙宫
 // lianshengwang()//自动连胜
-zidongchuangta()//自动闯塔
+// zidongchuangta()//自动闯塔
 // setInterval(shuafuben, 500)//捉宠物
-// zhengyao()//镇妖
-// wakuang()//挖矿
+zhengyao()//镇妖
+wakuang()//挖矿
 process.on('uncaughtException', function (err) {
     // console.log('uncaughtException出错')
 });

@@ -4,24 +4,29 @@ const BASEURL = CONFIG['区服务器']
 const S_ID = CONFIG['账号']
 async function zhengyao() {
     const timer = setInterval(async () => {
-        const res = await axios.get(BASEURL + '/pagoda/todemon.asp', {
-            params: {
-                sid: S_ID,
-                id: 1,
-                pvpType: 1
-            }
-        })
-        const reg = /第[0-9]+?层[\s\S]*?(挑战|占领)/g
-        const list = res.data.match(reg).reverse()
-        const newList = list.map(item => {
-            const reg = /floor=([0-9]+)/
-            const floor = Number(item.match(reg)[1])
-            return {
-                floor,
-                kong: item.includes('层&nbsp;空.')
-            }
-        })
-        newList.map(async (item) => {
+    const res = await axios.get(BASEURL + '/pagoda/todemon.asp', {
+        params: {
+            sid: S_ID,
+            id: 1,
+            pvpType: 1
+        }
+    })
+    const reg = /第[0-9]+?层[\s\S]*?(挑战|占领)/g
+    const list = res.data.match(reg).reverse()
+    const filterList = list.filter(item => {
+        const reg = /&nbsp;空/g
+        const reg2 = /占领/g
+        return reg.test(item) && reg2.test(item)
+    })
+    const newList = filterList.map(item => {
+        const reg = /floor=([0-9]+)/
+        const floor = Number(item.match(reg)[1])
+        return {
+            floor,
+            kong: item.includes('层&nbsp;空.')
+        }
+    })
+    newList.map(async (item) => {
             if (item.kong) {
                 const res2 = await axios.get(BASEURL + '/pagoda/grabSite.asp', {
                     params: {
@@ -43,7 +48,7 @@ async function zhengyao() {
                 }
             }
         })
-    }, 1000)
+    },1000)
 }
 module.exports = {
     zhengyao
