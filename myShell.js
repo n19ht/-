@@ -14,6 +14,7 @@ const { zidongchuangta } = require('./自动闯塔')
 const { shuafuben } = require('./自动刷副本')
 const { wakuang } = require('./自动挖矿')
 const { zhengyao } = require('./自动镇妖')
+const { leitai } = require('./自动擂台')
 
 // meirirenwu()//签到、祝贺幻王、每日礼包
 // zhongzhuangyuan()//自动种庄园
@@ -22,8 +23,10 @@ const { zhengyao } = require('./自动镇妖')
 // shuatu()//自动挑战龙宫
 // lianshengwang()//自动连胜
 // zidongchuangta()//自动闯塔
+
+// leitai()//自动刷擂台
 // setInterval(shuafuben, 500)//捉宠物
-zhengyao()//镇妖
+// zhengyao()//镇妖
 wakuang()//挖矿
 process.on('uncaughtException', function (err) {
     // console.log('uncaughtException出错')
