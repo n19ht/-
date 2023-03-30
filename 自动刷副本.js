@@ -7,7 +7,8 @@
 const axios = require('axios')
 const CONFIG = require('./config')
 const BASEURL = CONFIG['区服务器']
-const mapName = CONFIG['地图序号']
+let mapName = CONFIG['地图序号']
+let chuansongid = CONFIG['传送']
 const BALL = CONFIG['使用的捕捉球']
 const S_ID = CONFIG['账号']
 
@@ -20,7 +21,6 @@ async function jinruditu(mapIndex) {
     })
     return res.data
 }
-
 async function touzicaozuo(mapStatus) {
     if (mapStatus.indexOf('前进') === -1) return
     //点击前进
@@ -32,13 +32,55 @@ async function touzicaozuo(mapStatus) {
         }
     })
     //点击停止
-    await axios.get(BASEURL + `/nmap/step.asp${jsessionid}`, {
+    const res = await axios.get(BASEURL + `/nmap/step.asp${jsessionid}`, {
         params: {
             sid: S_ID,
         }
     })
+    await zengjiatouzi(res.data)
 }
-
+async function zengjiatouzi(mapStatus) {
+    if (!mapStatus.includes('骰子不足')) return
+    await axios.get(BASEURL + `/nmap/addDice.asp`, {
+        params: {
+            sid: S_ID,
+            pageType: 0
+        }
+    })
+    const res = await axios.get(BASEURL + `/nmap/addDice2Node.asp`, {
+        params: {
+            sid: S_ID,
+            nodeId: mapName
+        }
+    })
+}
+async function chuansong() {
+    const res = await axios.get(BASEURL + `/nmap/shiftTown.asp`, {
+        params: {
+            sid: S_ID,
+            id: chuansongid
+        }
+    })
+    mapName++
+    chuansongid++
+    if (res.data.includes('等级不足')) return console.log('地图挑战完成')
+}
+async function chongzhiditu(mapStatus) {
+    if (!mapStatus.includes('重置副本')) return
+    const res = await axios.get(BASEURL + `/nmap/resetNode.asp`, {
+        params: {
+            sid: S_ID,
+            nodeId: mapName
+        }
+    })
+    if (res.data.includes('今天重置次数已达到最大值')) {
+        if (mapName % 2 === 1) {
+            await chuansong()
+        } else {
+            mapName++
+        }
+    }
+}
 async function tiaozhanhuanshou(mapStatus) {
     if (mapStatus.indexOf('挑战幻') === -1) return
     let jsessionid = getJsessionid(mapStatus)
@@ -48,9 +90,7 @@ async function tiaozhanhuanshou(mapStatus) {
         }
     })
 }
-
 async function shiyongbuzhuoqiu(mapStatus) {
-    if (mapStatus.indexOf('捕捉') === -1) return
     let jsessionid = getJsessionid(mapStatus)
     const res = await axios.get(BASEURL + `/nmap/grabPet.asp${jsessionid}`, {
         params: {
@@ -71,7 +111,6 @@ async function tiaozhanboss(mapStatus) {
         }
     })
 }
-
 async function caiquan(mapStatus) {
     if (mapStatus.indexOf('猜拳') === -1) return
     await axios.get(BASEURL + '/nmap/event1.asp', {
@@ -102,7 +141,6 @@ async function huoquzhanlipin(mapStatus) {
             }
         })
         shiyonghuolicao(res.data)
-        console.log('地图挑战完成！');
     }
 }
 function getJsessionid(mapStatus) {
@@ -114,24 +152,13 @@ function getJsessionid(mapStatus) {
 }
 async function shuafuben() {
     const res = await jinruditu(mapName)
-    await shiyongbuzhuoqiu(res).catch((err) => {
-        console.log(err);
-    })
-    await touzicaozuo(res).catch((err) => {
-        console.log(err);
-    })
-    await tiaozhanhuanshou(res).catch((err) => {
-        console.log(err);
-    })
-    await tiaozhanboss(res).catch((err) => {
-        console.log(err);
-    })
-    await caiquan(res).catch((err) => {
-        console.log(err);
-    })
-    await huoquzhanlipin(res).catch((err) => {
-        console.log(err);
-    })
+    await chongzhiditu(res)
+    await shiyongbuzhuoqiu(res)
+    await touzicaozuo(res)
+    await tiaozhanhuanshou(res)
+    await tiaozhanboss(res)
+    await caiquan(res)
+    await huoquzhanlipin(res)
 }
 module.exports = {
     shuafuben

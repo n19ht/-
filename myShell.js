@@ -25,9 +25,9 @@ const { leitai } = require('./自动擂台')
 // zidongchuangta()//自动闯塔
 
 // leitai()//自动刷擂台
-// setInterval(shuafuben, 500)//捉宠物
+setInterval(shuafuben, 500)//捉宠物
 // zhengyao()//镇妖
-wakuang()//挖矿
+// wakuang()//挖矿
 process.on('uncaughtException', function (err) {
     // console.log('uncaughtException出错')
 });
