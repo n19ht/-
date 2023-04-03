@@ -53,6 +53,13 @@ async function zengjiatouzi(mapStatus) {
             nodeId: mapName
         }
     })
+    if (res.data.includes('骰子盒当前没有骰子可用')) {
+        if (mapName % 2 === 1) {
+            await chuansong()
+        } else {
+            mapName++
+        }
+    }
 }
 async function chuansong() {
     const res = await axios.get(BASEURL + `/nmap/shiftTown.asp`, {
@@ -111,6 +118,14 @@ async function tiaozhanboss(mapStatus) {
         }
     })
 }
+async function chuansongditu(mapStatus) {
+    await axios.get(BASEURL + `/nmap/shiftTown.asp`, {
+        params: {
+            sid: S_ID,
+            id:3
+        }
+    })
+}
 async function caiquan(mapStatus) {
     if (mapStatus.indexOf('猜拳') === -1) return
     await axios.get(BASEURL + '/nmap/event1.asp', {
@@ -161,5 +176,6 @@ async function shuafuben() {
     await huoquzhanlipin(res)
 }
 module.exports = {
-    shuafuben
+    shuafuben,
+    chuansongditu
 }

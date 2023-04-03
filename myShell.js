@@ -11,7 +11,7 @@ const { canjiazhanchang } = require('./自动参加战场')
 const { shuatu } = require('./自动挑战地图')
 const { lianshengwang } = require('./自动连胜')
 const { zidongchuangta } = require('./自动闯塔')
-const { shuafuben } = require('./自动刷副本')
+const { shuafuben, chuansongditu } = require('./自动刷副本')
 const { wakuang } = require('./自动挖矿')
 const { zhengyao } = require('./自动镇妖')
 const { leitai } = require('./自动擂台')
@@ -25,9 +25,14 @@ const { leitai } = require('./自动擂台')
 // zidongchuangta()//自动闯塔
 
 // leitai()//自动刷擂台
-setInterval(shuafuben, 500)//捉宠物
+zhuochongwu()//捉宠物
 // zhengyao()//镇妖
 // wakuang()//挖矿
 process.on('uncaughtException', function (err) {
     // console.log('uncaughtException出错')
 });
+
+async function zhuochongwu() {
+    await chuansongditu()
+    setInterval(shuafuben, 500)
+}
