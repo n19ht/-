@@ -23,8 +23,6 @@ async function jinruditu(mapIndex) {
 }
 async function touzicaozuo(mapStatus) {
     if (mapStatus.indexOf('前进') === -1) return
-    //点击前进
-    //提取jsessionid
     let jsessionid = getJsessionid(mapStatus)
     await axios.get(BASEURL + `/nmap/stepIndex.asp${jsessionid}`, {
         params: {
@@ -73,7 +71,6 @@ async function chuansong() {
     if (res.data.includes('等级不足')) return console.log('地图挑战完成')
 }
 async function chongzhiditu(mapStatus) {
-    if (!mapStatus.includes('重置副本')) return
     const res = await axios.get(BASEURL + `/nmap/resetNode.asp`, {
         params: {
             sid: S_ID,
@@ -152,7 +149,7 @@ async function huoquzhanlipin(mapStatus) {
         const res = await axios.get(BASEURL + `/nmap/openBox.asp${jsessionid}`, {
             params: {
                 sid: S_ID,
-                type: 0
+                type: 1
             }
         })
         shiyonghuolicao(res.data)

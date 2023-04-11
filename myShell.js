@@ -22,10 +22,10 @@ const { leitai } = require('./自动擂台')
 // canjiazhanchang()//自动参加战场
 // shuatu()//自动挑战龙宫
 // lianshengwang()//自动连胜
-// zidongchuangta()//自动闯塔
+zidongchuangta()//自动闯塔
 
 // leitai()//自动刷擂台
-zhuochongwu()//捉宠物
+// zhuochongwu()//捉宠物
 // zhengyao()//镇妖
 // wakuang()//挖矿
 process.on('uncaughtException', function (err) {
