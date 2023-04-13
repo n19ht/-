@@ -98,7 +98,7 @@ async function shiyonghuolicao(mapStatus) {
         params: {
             sid: S_ID,
             id: 20005,
-            count: 30
+            count: 1
         }
     })
     return res.data
@@ -111,17 +111,12 @@ async function lianshen() {
     const p2Info = await chakanzhanji(info.p2UserId)
     const p1zhanli = p1Info.includes('点击操作过快') ? undefined : getzhanli(p1Info)
     const p2zhanli = p2Info.includes('点击操作过快') ? undefined : getzhanli(p2Info)
-    if (p1zhanli === undefined && p2zhanli === undefined) return
     if (p1zhanli < ZHANLI) {
         const res = await tiaozhan(info.p1UserId)
-        if (res.includes('点击操作过快') || res.includes('对方不在对手列表中')) return
-        const res1 = await shiyonghuolicao(res)
-        if (res1.includes('的请求过快')) return
+        await shiyonghuolicao(res)
     } else if (p2zhanli < ZHANLI) {
         const res = await tiaozhan(info.p2UserId)
-        if (res.includes('点击操作过快') || res.includes('对方不在对手列表中')) return
-        const res1 = awaitshiyonghuolicao(res)
-        if (res1.includes('的请求过快')) return
+        await shiyonghuolicao(res)
     } else {
         return
     }
