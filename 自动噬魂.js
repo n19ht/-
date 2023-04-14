@@ -9,8 +9,8 @@ const CONFIG = require('./config')
 const BASEURL = CONFIG['区服务器']
 const S_ID = CONFIG['账号']
 const peizhi = {
-    id: 'd5fcc1a335e2480baacb10df79d2bd99',
-    petId: '62af7a3bd6a34774a6e2824e07f56cb2'
+    id: '835de5ddf7894019951da623c4abc039',
+    petId: '75ed6c4e691d40d497bc2122f73f9b56'
 }
 function getJsessionid(mapStatus) {
     let jsessionid = ''
@@ -53,8 +53,12 @@ async function querenshihun() {
             petId: peizhi.petId,
         }
     })
-    console.log(res.data)
 }
-setInterval(() => {
-    querenshihun()
-}, 500)
+const tunshi = () => { 
+    setInterval(() => {
+        querenshihun()
+    }, 500)
+}
+module.exports = {
+    tunshi
+}

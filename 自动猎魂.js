@@ -16,12 +16,15 @@ async function yijianliehun() {
         }
     })
     if (res.data.indexOf('天魂') !== -1) {
-        console.log('猎到天魂')
+        console.log('猎到天魂' + new Date().toLocaleTimeString())
     }
     if (res.data.indexOf('龙魂') !== -1) {
-        console.log('猎到龙魂')
+        console.log('猎到龙魂' + new Date().toLocaleTimeString())
     }
 }
-setInterval(() => {
-    yijianliehun()
-}, 500)
+function liehun() {
+    setInterval(yijianliehun, 500)
+}
+module.exports = {
+    liehun
+}
